@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--What the heck, IE-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="jstree/themes/default/style.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//devcloud.smartdraw.com/app/sdjs/SDUI/Plugins/SDAPI/SDAPI.js"></script>
+    <script src="//devcloud.smartdraw.com/app/sdjs/SDUI/Plugins/SDAPI/SDAPI.VS.js"></script>
+    <script src="jstree/jstree.js"></script>
+    <script src="SitemapXMLCore.js"></script>
+    <script src="web/WebController.js"></script>
+    <script src="web/WebInterface.js"></script>
+    <script src="web/WebService.js"></script>
+    <script src="web/WebRecentUrls.js"></script>
+    <script src="local/LocalController.js"></script>
+    <script src="local/LocalInterface.js"></script>
+    <script src="local/LocalService.js"></script>
+    <script src="util/Utils.js"></script>
+    <script src="util/SitemapExclusionTree.js"></script>
+    <script src="util/SitemapService.js"></script>
+    <!--<script src="script.js"></script>
+    <script src="SitemapExclusionTree.js"></script>-->
+</head>
+<body>
+    <div class="plugin-contentContainer">
+        <!-- <h5 class="plugin-section-header">Automatically build a visual site map from a Google Site map xml file</h5> -->
+        <!-- <button onclick="SitemapXMLFilter.SetTab(SitemapXMLFilter.tabStates.Web)">Web</button>
+            <button onclick="SitemapXMLFilter.SetTab(SitemapXMLFilter.tabStates.LocalFile)">File</button> -->
+
+            <h5 class="plugin-section-header">Choose a site map</h5>
+
+            <div class="plugin-sitemap-inputSiteMap">
+                <label class="plugin-fileInputContainer">Browse<input type="file" id="lfFile" onchange="SitemapXMLFilter.SelectFile()" accept=".xml"/></label>
+                <p id="lfFileName" class="plugin-fileName"></p>
+                <input placeholder="Or Type URL" list="webRecentUrls" id="webUrl" oninput="SitemapXMLFilter.ChangeUrlInput()" onkeydown="SitemapXMLFilter.UrlInputKeyDownEvent(event)"/>
+                <datalist id="webRecentUrls"></datalist>
+                <button id="lfImportCancel" class="plugin-button plugin-button-cancel" onclick="SitemapXMLFilter.ClearFile()" hidden>Cancel</button>
+            </div>
+
+
+            <p id="webOutputText">Converts up to 600 nodes on a sitemap.</p>
+            <p id="webTreeFeedbackText"></p>
+            <p id="lfOutputText" hidden>Note: Local sitemapindex files do not work, make sure all sitemaps are compiled into the same XML file.</p>
+            <p id="lfTreeFeedbackText" hidden></p>
+
+            <h5 class="plugin-section-header">File Display</h5>
+            <div class="plugin-sitemap-siteMapButtons">
+                <button class="plugin-button plugin-button-ready" onclick="SitemapXMLFilter.Exclude()" id="webExclude" hidden>Load Site Map</button>
+                <button class="plugin-button plugin-button-ready" onclick="SitemapXMLFilter.Exclude()" id="lfExclude" hidden>Load Site Map</button>
+            </div>
+            <div class="plugin-treeOutput" id="webTreeOutputParent">
+                <div id="webTreeOutput"></div>
+                <div id="webLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+            <div class="plugin-treeOutput" id="lfTreeOutputParent" hidden>
+                <div id="lfTreeOutput"></div>
+                <div id="lfLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+
+            <div id="treeOptions" class="plugin-treeOptions">
+                <button class="plugin-button plugin-button-disabled" id="lfCheckAll" onclick="SitemapXMLFilter.CheckAll()" disabled hidden>Select All</button>
+                <button class="plugin-button plugin-button-disabled" id="lfUncheckAll" onclick="SitemapXMLFilter.UncheckAll()" disabled hidden>Deselect All</button>
+                <button class="plugin-button plugin-button-disabled" id="webCheckAll" onclick="SitemapXMLFilter.CheckAll()" disabled>Select All</button>
+                <button class="plugin-button plugin-button-disabled" id="webUncheckAll" onclick="SitemapXMLFilter.UncheckAll()" disabled>Deselect All</button>                
+            </div>
+
+            <h5 class="plugin-section-header">Options</h5>
+            <div class="plugin-options plugin-borderedContent"> 
+                <div>
+                    <label><input type="checkbox" id="gTables" checked/>Show peers as tables</label>
+                    <label><input type="checkbox" id="gHyperlinks" checked/>Add hyperlinks to pages</label>
+                </div>
+                <div>
+                    <label><input type="checkbox" id="gLexicographicOrder" checked/>Sort sitemap alphabetically</label>
+                </div>
+            </div>
+            
+
+        <!-- <div id="webTab">
+            <p>Enter in the url of the sitemap, then press submit.</p>
+            
+            
+            <button onclick="SitemapXMLFilter.Web.SubmitSitemap()" id="webSubmit">Submit</button>
+            
+            <input type="checkbox" id="webTables"/>Generate Tables
+            <input type="checkbox" id="webHyperlinks"/>Generate Hyperlinks
+            
+            <button onclick="SitemapXMLFilter.Web.Exclude()" id="webExclude">Exclude Directories</button>
+            <button onclick="SitemapXMLFilter.Web.ExSubmit()" id="webExSubmit" disabled>Submit from list</button>
+            <br/>
+            <p id="webOutputText"></p>
+            <div id="webTreeOutput"></div>
+        </div> -->
+        <!-- <div id="filesTab" hidden>
+            <p>Please insert a local XML sitemap file from your website.</p>
+            <input type="file" id="lfFile"/>
+            <button onclick="SitemapXMLFilter.LF.Submit()" id="lfSubmit">Submit file</button>
+            <br/>
+            <input type="checkbox" id="lfTables"/>Generate Tables
+            <input type="checkbox" id="lfHyperlinks"/>Generate Hyperlinks
+            <br/><br/>
+            <button onclick="SitemapXMLFilter.LF.Exclude()" id="lfExclude">Exclude Directories</button>
+            <button onclick="SitemapXMLFilter.LF.ExSubmit()" id="lfExSubmit" disabled>Submit from list</button>
+            <div id="lfLimitNotice" hidden>
+                <br/>
+                <p>XML file was too large, limiting to 10,000 nodes</p>
+            </div>
+            <br/>
+            <p id="lfOutputText">Note: Local sitemapindex files do not work, make sure all sitemaps are compiled into the same XML file.</p>
+            <div id="lfTreeOutput"></div>
+        </div> -->
+
+    </div>
+
+    <div class="plugin-modalFooter">
+        <button onclick="SitemapXMLFilter.Submit()" id="submit">Build Diagram</button>
+    </div>
+
+</body>
+</html>

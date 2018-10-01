@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="jstree/themes/default/style.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700" rel="stylesheet">  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//devcloud.smartdraw.com/app/sdjs/SDUI/Plugins/SDAPI/SDAPI.js"></script>
+    <script src="//devcloud.smartdraw.com/app/sdjs/SDUI/Plugins/SDAPI/SDAPI.VS.js"></script>
+    <script src="jstree/jstree.js"></script>
+    <script src="ClassDiagramCore.js"></script>
+    <script src="github/GithubController.js"></script>
+    <script src="github/GithubInterface.js"></script>
+    <script src="github/GithubAuthentication.js"></script>
+    <script src="github/GithubRepositoryTree.js"></script>
+    <script src="github/GithubService.js"></script>
+    <script src="local/LocalController.js"></script>
+    <script src="local/LocalInterface.js"></script>
+    <script src="local/LocalService.js"></script>
+    <script src="util/Utils.js"></script>
+    <script src="util/JstreeUtil.js"></script>
+    <script src="util/ClassExclusionUtil.js"></script>
+</head>
+<body>
+    <div class="plugin-contentContainer">
+        <div class="plugin-classDiagram-selectRepo">
+            <h5 class="plugin-section-header">Automatically build a class diagram from a Github or a local code repository</h5>
+        <!-- <button onclick="ClassDiagramFilter.SetTab(0)">Local</button>
+            <button onclick="ClassDiagramFilter.SetTab(1)">Github</button> -->
+            <form class="plugin-classDiagram-repoSelector">
+                <div class="plugin-classDiagram-repoSelector-radio">
+                    <input onclick="ClassDiagramFilter.SetTab(1)" type="radio" name="classDiagramSource" id="github" checked>
+                    <label for="github">Github</label>
+                </div>
+                <div class="plugin-classDiagram-repoSelector-radio">
+                    <input onclick="ClassDiagramFilter.SetTab(0)" type="radio" name="classDiagramSource" id="local">
+                    <label for="local">Local</label>
+                </div>
+            </form>
+        </div>
+        <div id="filesTab" hidden>
+            <p>Upload files here to send to the server:</p>
+            <label class="plugin-fileInputContainer">Browse<input type="file" id="lfFiles" multiple onchange="ClassDiagramFilter.Local.LocalController.ChangeFiles()" accept=".adb,.ads,.Ada,.asp,.asa,.aspx,.bet,.cbl,.cob,.CBL,.COB,.d,.di,.e,.fal,.ftd,.f,.for,.ftn,.f03,.f08,.f15,.go,.js,.jsx,.cl,.clisp,.el,.l,.lisp,.lsp,.lua,.p,.pp,.pas,.pl,.pm,.ph,.plx,.perl,.p6,.pm6,.pl6,.php,.php4,.php5,.php7,.phtml,.py,.pyx,.pxd,.pxi,.scons,.r,.R,.s,.q,.rb,.ruby,.rs,.tcl,.tk,.wish,.exp,.tex,.cs,.c++,.cc,.cp,.cpp,.cxx,.h,.h++,.hh,.hpp,.hxx,.m,.mm,.inl,.java"/></label>
+            <p id="lfFileName" class="plugin-fileName"></p>
+            <!--Buttons are not merged internally yet, need second button around temporarily-->
+            <br/>
+            <p id="lfOutputText"></p>
+        </div>
+        
+        <div id="githubAuthTab" class="githubAuthenticationContainer">
+            <button class="plugin-button" onclick="ClassDiagramFilter.Github.GithubController.Authenticate()">Authenticate with Github</button>
+            <p id="ghAuthOutput"></p>
+        </div>
+
+        <div id="githubTab" hidden>
+
+            <div class="plugin-borderedContent plugin-classDiagram-githubDetailContainer" id="githubTab">
+                <div class="plugin-classDiagram-githubDetail" style="margin-bottom: 20px;">
+                    <select id="ghInputHistory" onchange="ClassDiagramFilter.Github.GithubController.SelectFromInputHistory(event)">
+                        <option value="">--empty--</option>
+                    </select>
+                    <button onclick="ClassDiagramFilter.Github.GithubController.Logout()" class="plugin-button">Logout</button>
+                </div>
+                <div class="plugin-classDiagram-githubDetail">
+                    <label>User Name</label>
+                    <input type="text" placeholder="User" id="ghUser" value="SmartDrawSoftware"/>
+                </div>
+                <div class="plugin-classDiagram-githubDetail">
+                    <label>Repository Name</label>
+                    <input type="text" placeholder="Repository" id="ghRepo" value="sd-class-example"/>
+                </div>
+                <div class="plugin-classDiagram-githubDetail">
+                    <label>Branch</label>
+                    <input type="text" placeholder="Branch" value="master" id="ghBranch"/>
+                </div>
+            </div>
+        </div>
+
+        <!--I can't think of any better way to do this without a lot of hiding and unhiding based on tab-->
+        <div id="gEverythingBelowAuthentication" hidden>
+
+            <div class="plugin-listFilesButtonContainer">
+                <!--temporarily swapping out to bypass function-->
+                <button onclick="ClassDiagramFilter.Github.GithubController.ListFiles()" id="ghListFilesBtn" class="plugin-button plugin-button-ready">Load Source</button>
+                <!-- <button onclick="ClassDiagramFilter.Github.GithubController.ExcludeByClassBypass()" id="ghListFilesBtn" class="plugin-button plugin-button-ready">Load Source</button> -->
+            </div>
+
+
+            
+            <h5 class="plugin-section-header">File Display</h5>
+            
+            <div class="plugin-treeOutput" id="ghTreeOutputOuter">
+                <div id="ghTreeOutput" hidden></div>
+                <div id="ghTreeLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+            <p id="ghOutput"></p>
+
+            <div class="plugin-treeOutput" id="ghClassExclusionTreeOuter" hidden>
+                <div id="ghClassExclusionTree" hidden></div>
+                <div id="ghClassExLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+
+            <div class="plugin-treeOutput" id="lfClassExclusionTreeOuter" hidden>
+                <div id="lfClassExclusionTree" hidden></div>
+                <div id="lfClassExLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+
+            <div id="treeOptions" class="plugin-treeOptions">
+                <button class="plugin-button plugin-button-disabled" id="ghClassExclude" onclick="ClassDiagramFilter.Github.GithubController.ExcludeByClass()" disabled>Show Classes</button>
+                <button class="plugin-button plugin-button-disabled" id="ghFileExclude" onclick="ClassDiagramFilter.Github.GithubController.ExcludeByFile()" disabled hidden>Show Files</button>
+                <button class="plugin-button plugin-button-disabled" id="lfClassExclude" onclick="ClassDiagramFilter.Local.LocalController.ExcludeByClass()" disabled hidden>Show Classes</button>
+                <button class="plugin-button plugin-button-disabled" id="ghClassExcludeCheckAll" onclick="ClassDiagramFilter.Github.GithubController.SetChecked(true)" disabled>Select All</button>
+                <button class="plugin-button plugin-button-disabled" id="ghClassExcludeUncheckAll" onclick="ClassDiagramFilter.Github.GithubController.SetChecked(false)" disabled>Deselect All</button>
+                <button class="plugin-button plugin-button-disabled" id="lfClassExcludeCheckAll" onclick="ClassDiagramFilter.Local.LocalController.SetChecked(true)" disabled hidden>Select All</button>
+                <button class="plugin-button plugin-button-disabled" id="lfClassExcludeUncheckAll" onclick="ClassDiagramFilter.Local.LocalController.SetChecked(false)" disabled hidden>Deselect All</button>
+            </div>
+
+            <h5 class="plugin-section-header">Options</h5>
+            <div class="plugin-options plugin-borderedContent">
+                <label><input type="checkbox" id="gHideMethods">Hide Methods</label>
+                <label><input type="checkbox" id="gHideProperties">Hide Properties</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="plugin-modalFooter">
+        <button onclick="ClassDiagramFilter.Submit()">Build Diagram</button>
+    </div>
+
+</body>
+</html>

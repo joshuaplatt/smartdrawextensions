@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Login Successful!</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <p id="mainTitle">Success!  Please wait...</p>
+        <script>
+            var args = getSearchParams(document.location.search);
+            var code = args['code'];
+            var state = args['state'];
+            var locSplit = window.location.pathname.split('/');
+            var targetDomain = "";
+            
+            if(locSplit.length >= 2) {
+                locSplit[0] = window.location.protocol + "//" + window.location.host;
+                locSplit[locSplit.length - 1] = "";
+                targetDomain = locSplit.join('/');
+            }
+            
+            function SendCodeToServer() {
+                var url = "filter/github-get-userid?code=" + code + "&state=" + state;
+                
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    success: function(data, status) {
+                        if(data && window.opener) {
+                            window.addEventListener("message", function(e) {
+                                if(e.origin != window.location.origin) {
+                                    return;
+                                }
+                                
+                                if(e.data) {
+                                    window.close();
+                                }
+                            });
+                            
+                            window.opener.postMessage(data, targetDomain);
+                        }
+                        else {
+                            document.getElementById("mainTitle").innerText = "Error: Could not get authentication.";
+                            document.getElementById("mainTitle").innerText += "\n" + JSON.stringify(data);
+                        }
+                    },
+                    error: function(data, status) {
+                        document.getElementById("mainTitle").innerText = "Error: " + (data.responseJSON ? data.responseJSON : data.responseText);
+                    }
+                });
+            }
+            
+            function getSearchParams(params) {
+                var args = new Map();
+                
+                if(!params || (params[0] != '?')) {
+                    return args;
+                }
+                
+                var split = params.substring(1).split("&");
+                var n;
+                
+                for(var i = 0; i < split.length; i++) {
+                    n = split[i].indexOf("=");
+                    
+                    if(n == -1) {
+                        continue;
+                    }
+                    
+                    args[split[i].substring(0, n)] = split[i].substring(n + 1);
+                }
+                
+                return args;
+            }
+            
+            if(code && state) {
+                SendCodeToServer();
+            }
+        </script>
+    </body>
+</html>
