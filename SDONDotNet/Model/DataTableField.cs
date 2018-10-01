@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 namespace SDON.Model
 {
     /// <summary>
-    /// Object defining of a column in a data table.
+    /// Object representing  value in a row in a data table;
     /// </summary>
     [Serializable]
-    public sealed class DataTableColumn : SDONSerializeable
+    public sealed class DataTableField : SDONSerializeable
     {
         [DataMember(Name = "Name")]
         [IgnoreIfDefaultValue(Default = null)]
         private string _name = null;
 
-        [DataMember(Name = "Type")]
+        [DataMember(Name = "Value")]
         [IgnoreIfDefaultValue(Default = null)]
-        private string _type = null;
+        private string _value = null;
 
         /// <summary>
-        /// The name of the column.
+        /// The name of the corresponding column to add a value to.
         /// </summary>
         public string Name
         {
@@ -32,18 +32,18 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The data type of the column. Must be one of the data types from DataTableDataTypes.
+        /// The value to give the row.
         /// </summary>
-        public string Type
+        public string Value
         {
-            get { return _type; }
-            set { _type = value; }
+            get { return _value; }
+            set { _value = value; }
         }
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public DataTableColumn()
+        public DataTableField()
         {
         }
 
@@ -52,7 +52,7 @@ namespace SDON.Model
         /// </summary>
         /// <param name="info">Serialization info (all the values that are on the incoming object graph) of the object being deserialized.</param>
         /// <param name="context">The deserialization context.</param>
-        internal DataTableColumn(SerializationInfo info, StreamingContext context)
+        internal DataTableField(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

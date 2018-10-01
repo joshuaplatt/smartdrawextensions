@@ -10,7 +10,7 @@ namespace SDON.Model
 {
 
     /// <summary>
-    /// An entry that maps an alias to a symbol's GUID.
+    /// An object that maps an alias to a symbol's GUID.
     /// </summary>
     [Serializable]
     public sealed class SymbolEntry : SDONSerializeable

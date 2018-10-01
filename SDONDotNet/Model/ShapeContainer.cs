@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SDON.Model
 {
+    /// <summary>
+    /// An object for holding shapes in a grid-like pattern.
+    /// </summary>
     [Serializable]
     public sealed class ShapeContainer : SDONSerializeable
     {
@@ -43,6 +46,10 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private bool? _hide = null;
 
+        [DataMember(Name = "DefaultShape")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private Shape _defaultShape = null;
+
         /// <summary>
         /// The shapes contained by the ShapeContainer.
         /// </summary>
@@ -71,7 +78,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Spacing between columns in 1/100". This is inherited by Child Shape arrays.
+        /// Spacing between rows in 1/100". This is inherited by child ShapeContainers.
         /// </summary>
         public int VerticalSpacing
         {
@@ -80,7 +87,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Spacing between rows in 1/100". This is inherited by Child Shape arrays.
+        /// Spacing between columns in 1/100". This is inherited by child ShapeContainers.
         /// </summary>
         public int HorizontalSpacing
         {
@@ -98,7 +105,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Controls the positioning of a shape in a row of shapes.
+        /// Controls the positioning of a shape in a row of shapes. Must be a value from ShapeAlignVertical
         /// </summary>
         public string ShapesAlignV
         {
@@ -123,6 +130,15 @@ namespace SDON.Model
                 }
             }
             set { _hide = value; }
+        }
+
+        /// <summary>
+        /// The default shape properties of all shapes in the container.
+        /// </summary>
+        public Shape DefaultShape
+        {
+            get { return _defaultShape; }
+            set { _defaultShape = value; }
         }
 
         /// <summary>

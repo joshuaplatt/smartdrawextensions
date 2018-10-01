@@ -9,18 +9,22 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// A ShapeConnector contains an array of shapes that are connected to it by an automatic connector. Defines an automatic connector.
+    /// An object that contains an array of shapes that are connected to it by an automatic connector. Defines an automatic connector.
     /// </summary>
     [Serializable]
     public sealed class ShapeConnector : SDONSerializeable
     {
         [DataMember(Name = "Collapse")]
-        [IgnoreIfDefaultValue(Default = false)]
-        private bool _collapse = false;
+        [IgnoreIfDefaultValue(Default = null)]
+        private bool? _collapse = null;
 
         [DataMember(Name = "Direction")]
         [IgnoreIfDefaultValue(Default = null)]
         private string _direction = null;
+
+        [DataMember(Name = "FillColor")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _fillColor = null;
 
         [DataMember(Name = "LineThick")]
         [IgnoreIfDefaultValue(Default = -1.0)]
@@ -29,6 +33,10 @@ namespace SDON.Model
         [DataMember(Name = "LineColor")]
         [IgnoreIfDefaultValue(Default = null)]
         private string _lineColor = null;
+
+        [DataMember(Name = "LinePattern")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _linePattern = null;
 
         [DataMember(Name = "Arrangement")]
         [IgnoreIfDefaultValue(Default = null)]
@@ -42,7 +50,6 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _shapeConnectorType = null;
 
-
         [DataMember(Name = "StartArrow")]
         [IgnoreIfDefaultValue(Default = -1)]
         private int _startArrow = -1;
@@ -51,12 +58,45 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = -1)]
         private int _endArrow = -1;
 
+        [DataMember(Name = "TextFont")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _textFont = null;
+
+        [DataMember(Name = "TextBold")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private bool? _textBold = null;
+
+        [DataMember(Name = "TextItalic")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private bool? _textItalic = null;
+
+        [DataMember(Name = "TextUnderline")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private bool? _textUnderline = null;
+
+        [DataMember(Name = "TextSize")]
+        [IgnoreIfDefaultValue(Default = -1.0)]
+        private double _textSize = -1.0;
+
+        [DataMember(Name = "TextColor")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _textColor = null;
+
+        [DataMember(Name = "DefaultShape")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private Shape _defaultShape = null;
+
         /// <summary>
         /// Whether or not to collapse (hide) the connector. The connector is collapsed initially. This applies only to tree-like diagrams (not flowcharts).
         /// </summary>
         public bool Collapse
         {
-            get { return _collapse; }
+            get
+            {
+                if (_collapse.HasValue == false) return false;
+                return _collapse.Value;
+            }
+
             set { _collapse = value; }
         }
 
@@ -73,6 +113,15 @@ namespace SDON.Model
         {
             get { return _direction; }
             set { _direction = value; }
+        }
+
+        /// <summary>
+        /// The background color for text labels.
+        /// </summary>
+        public string FillColor
+        {
+            get { return _fillColor; }
+            set { _fillColor = value; }
         }
 
         /// <summary>
@@ -93,6 +142,18 @@ namespace SDON.Model
             set { _lineColor = value; }
         }
 
+        /// <summary>
+        /// The pattern of the line for the connector. Must be a value from the LinePatterns enum.
+        /// </summary>
+        public string LinePattern
+        {
+            get { return _linePattern; }
+            set { _linePattern = value; }
+        }
+
+        /// <summary>
+        /// The arrangement pattern of the shapes on the connector. Must be a value from the ShapeConnectorArrangement enum.
+        /// </summary>
         public string Arrangement
         {
             get { return _arrangement; }
@@ -109,7 +170,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Defines the way the shape connector will be formatted.
+        /// Defines the way the shape connector will be formatted. If omitted, the template default is used.
         /// </summary>
         public string ShapeConnectorType
         {
@@ -118,7 +179,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The arrowhead that will appear on the beginning of the line.
+        /// The arrowhead that will appear on the beginning of the line. Must be a value from the Arrowheads enum.
         /// </summary>
         public int StartArrow
         {
@@ -127,12 +188,102 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The arrowhead that will appear on the end of the line.
+        /// The arrowhead that will appear on the end of the line. Must be a value from the Arrowheads enum.
         /// </summary>
         public int EndArrow
         {
             get { return _endArrow; }
             set { _endArrow = value; }
+        }
+
+        /// <summary>
+        /// Makes the text label be bold with a value of true, not bold with false, otherwise, if omitted, boldness follows the template default.
+        /// </summary>
+        public bool TextBold
+        {
+            get
+            {
+                if (_textBold.HasValue == true)
+                {
+                    return _textBold.Value;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            set { _textBold = value; }
+        }
+
+        /// <summary>
+        /// Makes the text label be italic with a value of true, not italic with false, otherwise, if omitted, italic follows the template default.
+        /// </summary>
+        public bool TextItalic
+        {
+            get
+            {
+                if (_textItalic.HasValue == true)
+                {
+                    return _textItalic.Value;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            set { _textItalic = value; }
+        }
+
+        /// <summary>
+        /// Makes the text label be underlined with a value of true, not underlined with false, otherwise, if omitted, underlined follows the template default.
+        /// </summary>
+        public bool TextUnderline
+        {
+            get
+            {
+                if (_textUnderline.HasValue == true)
+                {
+                    return _textUnderline.Value;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            set { _textUnderline = value; }
+        }
+
+        /// <summary>
+        /// The point size of the text label the specified value. If omitted, the text size is the default for the template.
+        /// </summary>
+        public double TextSize
+        {
+            get { return _textSize; }
+            set { _textSize = value; }
+        }
+
+        /// <summary>
+        /// The font of the text label the specified value. If omitted, the font is the default for the template. Any font can be defined, but will fall back to system default if font is unavailable.
+        /// </summary>
+        public string TextFont
+        {
+            get { return _textFont; }
+            set { _textFont = value; }
+        }
+
+        /// <summary>
+        /// Sets the default properties of any child shapes of the connector.
+        /// </summary>
+        public Shape DefaultShape
+        {
+            get { return _defaultShape; }
+            set { _defaultShape = value; }
         }
 
         /// <summary>

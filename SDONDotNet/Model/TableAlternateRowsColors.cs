@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SDON.Model
 {
+    /// <summary>
+    /// Object that holds two color entries to alternate between while in a table.
+    /// </summary>
     [Serializable]
     public sealed class TableAlternateRowsColors : SDONSerializeable
     {
@@ -19,12 +22,18 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _color2 = null;
 
+        /// <summary>
+        /// The first color to alternate between. If omitted, the default theme colors are used. Can be a hex color or a color alias.
+        /// </summary>
         public string Color1
         {
             get { return _color1; }
             set { _color1 = value; }
         }
 
+        /// <summary>
+        /// The last color to alternate between. If omitted, the default theme colors are used. Can be a hex color or a color alias.
+        /// </summary>
         public string Color2
         {
             get { return _color2; }

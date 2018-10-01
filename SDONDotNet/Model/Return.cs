@@ -9,7 +9,7 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// A segmented line that links two shapes
+    /// An object representing a segmented line that links two shapes
     /// </summary>
     [Serializable]
     public sealed class Return : SDONSerializeable
@@ -38,10 +38,6 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _label = null;
 
-        [DataMember(Name = "Arrowhead")]
-        [IgnoreIfDefaultValue(Default = -1)]
-        private int _arrowhead = -1;
-
         [DataMember(Name = "StartArrow")]
         [IgnoreIfDefaultValue(Default = -1)]
         private int _startArrow = -1;
@@ -63,7 +59,7 @@ namespace SDON.Model
         private bool? _curved = null;
 
         /// <summary>
-        /// The ID defined for the starting shape by its “ID” property.
+        /// Required. The ID of the starting shape. The starting and ending shapes define the direction of the line as far as any arrowhead is concerned, the arrowhead touches the ending shape.
         /// </summary>
         public int StartID
         {
@@ -72,7 +68,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The ID defined for the ending shape by its “ID” property (see above). The starting and ending shapes define the direction of the line as far as any arrowhead is concerned, the arrowhead touches the ending shape.
+        /// Required. The ID of the ending shape. The starting and ending shapes define the direction of the line as far as any arrowhead is concerned, the arrowhead touches the ending shape.
         /// </summary>
         public int EndID
         {
@@ -81,7 +77,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The direction the connector leaves the parent shape. The default is Down. A value from the Directions enum.
+        /// The direction the line leaves the starting shape. The default is Down. A value from the Directions enum.
         /// </summary>
         public string StartDirection
         {
@@ -90,7 +86,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The direction the line takes out of the ending shape. The default is Down. A value from the Directions enum.
+        /// The direction the line goes out the ending shape. The default is Down. A value from the Directions enum.
         /// </summary>
         public string EndDirection
         {
@@ -117,16 +113,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// By default returns have an arrowhead touching the end shape. This property can br turned off by using 0, or it can change the arrowhead from the default.
-        /// </summary>
-        public int Arrowhead
-        {
-            get { return _arrowhead; }
-            set { _arrowhead = value; }
-        }
-
-        /// <summary>
-        /// The arrowhead that will appear on the beginning of the line.
+        /// The arrowhead that will appear on the beginning of the line. A value from the Arrowheads enum. The default arrowhead depends on the template used.
         /// </summary>
         public int StartArrow
         {
@@ -135,7 +122,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The arrowhead that will appear on the end of the line.
+        /// The arrowhead that will appear on the end of the line. A value from the Arrowheads enum. The default arrowhead depends on the template used.
         /// </summary>
         public int EndArrow
         {
@@ -153,7 +140,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Make the line color of the connector the specified RGB value . Otherwise the color is the default for the template.
+        /// Make the line color of the connector the specified RGB value or color alias. Otherwise the color is the default for the template.
         /// </summary>
         public string LineColor
         {

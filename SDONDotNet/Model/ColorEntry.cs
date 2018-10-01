@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SDON.Model
 {
     /// <summary>
-    /// An entry that maps an alias to a hex color code.
+    /// Object that maps an alias to a hex color code.
     /// </summary>
     [Serializable]
     public sealed class ColorEntry : SDONSerializeable
@@ -32,7 +32,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The 6 character hex color, starting with the #. For example: #FFFFFF is the valid entry for white.
+        /// The 6 or 8 character hex color, starting with the #. For example: #FFFFFF is the valid entry for white. The hex color code can be RGB or (8-digit) RGBA where A is the opacity of the color.
         /// </summary>
         public string Value
         {

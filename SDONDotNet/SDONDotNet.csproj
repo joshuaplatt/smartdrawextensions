@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SDONDotNet.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,18 +46,22 @@
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Model\ColorEntry.cs" />
     <Compile Include="Model\ColumnProperites.cs" />
-    <Compile Include="Model\DataTable.cs" />
+    <Compile Include="Model\DataTableDefinition.cs" />
     <Compile Include="Model\DataTableColumn.cs" />
-    <Compile Include="Model\DataTableEntry.cs" />
+    <Compile Include="Model\DataTableInstance.cs" />
+    <Compile Include="Model\DataTableField.cs" />
+    <Compile Include="Model\DataTableShapeEntry.cs" />
     <Compile Include="Model\DataTableRow.cs" />
     <Compile Include="Model\Diagram.cs" />
     <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\GanttColumn.cs" />
+    <Compile Include="Model\GanttColumnSettings.cs" />
+    <Compile Include="Model\GanttOptions.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Join.cs" />
     <Compile Include="Model\Return.cs" />
     <Compile Include="Model\RowProperties.cs" />
     <Compile Include="Model\Shape.cs" />
-    <Compile Include="Model\ShapeArray.cs" />
     <Compile Include="Model\ShapeConnector.cs" />
     <Compile Include="Model\ShapeContainer.cs" />
     <Compile Include="Model\SymbolEntry.cs" />

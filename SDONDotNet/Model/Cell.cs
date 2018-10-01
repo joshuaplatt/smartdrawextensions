@@ -9,7 +9,7 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// Represents a Cell in a table.
+    /// Object that represents a Cell in a table.
     /// </summary>
     [Serializable]
     public sealed class Cell : SDONSerializeable
@@ -70,6 +70,10 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _note = null;
 
+        [DataMember(Name = "NoteIcon")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _noteIcon = null;
+
         [DataMember(Name = "Hyperlink")]
         [IgnoreIfDefaultValue(Default = null)]
         private Hyperlink _hyperlink = null;
@@ -78,12 +82,16 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private Hyperlink _textHyperlink = null;
 
-        [DataMember(Name = "ImageURL")]
+        [DataMember(Name = "Image")]
         [IgnoreIfDefaultValue(Default = null)]
-        private Image _imageUrl = null;
+        private Image _image = null;
+
+        [DataMember(Name = "Shape")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private Shape _shape = null;
 
         /// <summary>
-        /// The column of the cell. Note that the first column is column 1 not column 0.
+        /// Required. The column of the cell. Note that the first column is column 1 not column 0.
         /// </summary>
         public int Column
         {
@@ -92,7 +100,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The row of the cell. Note that the first row is row 1 not row 0.
+        /// Required. The row of the cell. Note that the first row is row 1 not row 0.
         /// </summary>
         public int Row
         {
@@ -191,7 +199,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The color of the text label of the cell (hex RGB value). If omitted, the color is the default for the template.
+        /// The color of the text label of the cell (hex RGB value or alias). If omitted, the color is the default for the template.
         /// </summary>
         public string TextColor
         {
@@ -200,7 +208,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The fill color of the shape (hex RGB value). If omitted, color is the default for the template.
+        /// The fill color of the shape (hex RGB value or alias). If omitted, color is the default for the template.
         /// </summary>
         public string FillColor
         {
@@ -227,7 +235,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The number of characters to truncate text after.
+        /// The number of characters shown in the cell before the text is truncated.
         /// </summary>
         public int Truncate
         {
@@ -242,6 +250,15 @@ namespace SDON.Model
         {
             get { return _note; }
             set { _note = value; }
+        }
+
+        /// <summary>
+        /// The icon to use for the note on a cell. Defaults to a post-it note icon. Other options are available in the Icons enum.
+        /// </summary>
+        public string NoteIcon
+        {
+            get { return _noteIcon; }
+            set { _noteIcon = value; }
         }
 
         /// <summary>
@@ -265,10 +282,19 @@ namespace SDON.Model
         /// <summary>
         /// Defines the url to the image to be shown in the cell.
         /// </summary>
-        public Image ImageURL
+        public Image Image
         {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
+            get { return _image; }
+            set { _image = value; }
+        }
+
+        /// <summary>
+        /// A shape that appears inside a table cell. The cell will resize to accomodate the shape and its children.
+        /// </summary>
+        public Shape Shape
+        {
+            get { return _shape; }
+            set { _shape = value; }
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// The properties of a column.
+    /// Object for containing the properties of a column in a table.
     /// </summary>
     [Serializable]
     public sealed class ColumnProperties : SDONSerializeable
@@ -26,9 +26,9 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _lineColor = null;
 
-        [DataMember(Name = "Height")]
-        [IgnoreIfDefaultValue(Default = -1.0)]
-        private double _height = -1.0;
+        [DataMember(Name = "LinePattern")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _linePattern = null;
 
         [DataMember(Name = "Width")]
         [IgnoreIfDefaultValue(Default = -1.0)]
@@ -57,7 +57,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The line color of the column borders as a hex RGB value. If omitted, the color is the default for the template.
+        /// The line color of the column borders as a hex RGB value or color alias. If omitted, the color is the default for the template.
         /// </summary>
         public string LineColor
         {
@@ -66,13 +66,14 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The minimum height of the column in 1/100”. The text in cells in the row may force the row to be taller than this height.
+        /// The pattern of the line for the column border. Must be a value from the LinePatterns enum.
         /// </summary>
-        public double Height
+        public string LinePattern
         {
-            get { return _height; }
-            set { _height = value; }
+            get { return _linePattern; }
+            set { _linePattern = value; }
         }
+
 
         /// <summary>
         /// The desired width of the column in 1/100”. Note any change n column N’s width reduces the width of column N+1 by the same amount.
@@ -84,7 +85,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Makes the row not scale as the shape that contains the table grows.
+        /// Makes the column not scale as the shape that contains the table grows.
         /// </summary>
         public bool FixedWidth
         {

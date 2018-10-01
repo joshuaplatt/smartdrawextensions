@@ -8,6 +8,9 @@ using SDON.Serialization;
 
 namespace SDON.Model
 {
+    /// <summary>
+    /// Object that represents a table that has been inserted into a shape.
+    /// </summary>
     [Serializable]
     public sealed class Table : SDONSerializeable
     {
@@ -93,7 +96,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Sets up a color scheem for alternating row colors in a table.
+        /// Sets up a color scheme for alternating row colors in a table.
         /// </summary>
         public TableAlternateRowsColors AlternateRows
         {

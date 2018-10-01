@@ -8,6 +8,9 @@ using SDON.Serialization;
 
 namespace SDON.Model
 {
+    /// <summary>
+    /// Object for containing the properties of a row in a table.
+    /// </summary>
     [Serializable]
     public sealed class RowProperties : SDONSerializeable
     {
@@ -23,13 +26,13 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _lineColor = null;
 
+        [DataMember(Name = "LinePattern")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _linePattern = null;
+
         [DataMember(Name = "Height")]
         [IgnoreIfDefaultValue(Default = -1.0)]
         private double _height = -1.0;
-
-        [DataMember(Name = "Width")]
-        [IgnoreIfDefaultValue(Default = -1.0)]
-        private double _width = -1.0;
 
         [DataMember(Name = "FixedHeight")]
         [IgnoreIfDefaultValue(Default = null)]
@@ -54,12 +57,21 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The line color of the row borders as a hex RGB value. If omitted, the color is the default for the template.
+        /// The line color of the row borders as a hex RGB value or color alias. If omitted, the color is the default for the template.
         /// </summary>
         public string LineColor
         {
             get { return _lineColor; }
             set { _lineColor = value; }
+        }
+
+        /// <summary>
+        /// The pattern of the line for the row border. Must be a value from the LinePatterns enum.
+        /// </summary>
+        public string LinePattern
+        {
+            get { return _linePattern; }
+            set { _linePattern = value; }
         }
 
         /// <summary>
@@ -69,15 +81,6 @@ namespace SDON.Model
         {
             get { return _height; }
             set { _height = value; }
-        }
-
-        /// <summary>
-        /// The desired width of the row in 1/100”. Note any change n column N’s width reduces the width of column N+1 by the same amount.	
-        /// </summary>
-        public double Width
-        {
-            get { return _width; }
-            set { _width = value; }
         }
 
         /// <summary>

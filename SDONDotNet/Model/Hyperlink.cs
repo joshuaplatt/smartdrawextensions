@@ -9,7 +9,7 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// Represents a container for a hyperlink.
+    /// Object representing a container for a hyperlink.
     /// </summary>
     [Serializable]
     public sealed class Hyperlink : SDONSerializeable

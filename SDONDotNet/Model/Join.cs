@@ -8,6 +8,9 @@ using SDON.Serialization;
 
 namespace SDON.Model
 {
+    /// <summary>
+    /// Object that describes how to join cells together in a table.
+    /// </summary>
     [Serializable]
     public sealed class Join : SDONSerializeable
     {
@@ -24,11 +27,11 @@ namespace SDON.Model
         private int _n = 1;
 
         [DataMember(Name = "Down")]
-        [IgnoreIfDefaultValue(Default = 1)]
-        private int _down = 1;
+        [IgnoreIfDefaultValue(Default = null)]
+        private bool? _down = null;
 
         /// <summary>
-        /// The row of the first cell to be joined to others to the right or below it. Note that the first row is row 1 not row 0.
+        /// Required. The row of the first cell to be joined to others to the right or below it. Note that the first row is row 1 not row 0.
         /// </summary>
         public int Row
         {
@@ -37,7 +40,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The column of the first cell to be joined to others to the right or below it. Note that the first column is column 1 not column 0.
+        /// Required. The column of the first cell to be joined to others to the right or below it. Note that the first column is column 1 not column 0.
         /// </summary>
         public int Column
         {
@@ -55,11 +58,11 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Adding this parameter with a non zero value makes the join happen down the column
+        /// Adding this parameter with a non zero value makes the join happen down the column.
         /// </summary>
-        public int Down
+        public bool Down
         {
-            get { return _down; }
+            get { return (_down.HasValue == true) ? _down.Value : false; }
             set { _down = value; }
         }
 

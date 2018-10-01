@@ -9,7 +9,7 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// Container for holding the reference to an image,
+    /// Object for holding the reference to an image,
     /// </summary>
     [Serializable]
     public sealed class Image : SDONSerializeable

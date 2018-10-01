@@ -44,11 +44,19 @@ namespace SDON.Model
 
         [DataMember(Name = "DataTable")]
         [IgnoreIfDefaultValue(Default = null)]
-        private List<DataTable> _dataTable = null;
+        private List<DataTableDefinition> _dataTable = null;
+
+        [DataMember(Name = "GanttOptions")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private GanttOptions _ganttOptions = null;
+
+        [DataMember(Name = "GanttColumns")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private List<GanttColumn> _ganttColumns = null;
 
         [DataMember(Name = "UseDataTable")]
         [IgnoreIfDefaultValue(Default = null)]
-        private List<DataTableEntry> _useDataTable = null;
+        private DataTableInstance _useDataTable = null;
 
         /// <summary>
         /// Type of diagram SDON will create. Sets the behavior of lines and shapes. A value from the SDONTemplates enum.
@@ -69,7 +77,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// A list of shapes indicating the root shapes (shapes starting without being connected to another shape) for the diagram.
+        /// The root shape in a diagram.
         /// </summary>
         public Shape Shape
         {
@@ -95,25 +103,55 @@ namespace SDON.Model
             set {_returns = value;}
         }
 
+        /// <summary>
+        /// A list of mappings of color aliases to color hex codes so that the alias can be used instead of the hex color code.
+        /// </summary>
         public List<ColorEntry> Colors
         {
             get { return _colors; }
             set { _colors = value; }
         }
 
+        /// <summary>
+        /// A list of mapping of a symbol's ID (in the SmartDraw CMS) to a alias that can be used in place of the Shape's ShapeType name.
+        /// </summary>
         public List<SymbolEntry> Symbols
         {
             get { return _symbols; }
             set { _symbols = value; }
         }
 
-        public List<DataTable> DataTable
+        /// <summary>
+        /// Definitions of data tables used in the diagram whose rows can be referenced by a shape.
+        /// </summary>
+        public List<DataTableDefinition> DataTable
         {
             get { return _dataTable; }
             set { _dataTable = value; }
         }
 
-        public List<DataTableEntry> UseDataTable
+        /// <summary>
+        /// Options for Gantt charts if the digram is a Gantt chart.
+        /// </summary>
+        public GanttOptions GanttOptions
+        {
+            get { return _ganttOptions; }
+            set { _ganttOptions = value; }
+        }
+
+        /// <summary>
+        /// Column definitions for a Gantt chart.
+        /// </summary>
+        public List<GanttColumn> GanttColumns
+        {
+            get { return _ganttColumns; }
+            set { _ganttColumns = value; }
+        }
+
+        /// <summary>
+        /// A special data table used when making Gantt charts, defines the row values and relationships that are inserted into a Gantt chart. The field names for the rows in this data table must be from the GanttChartColumnNames enum.
+        /// </summary>
+        public DataTableInstance UseDataTable
         {
             get { return _useDataTable; }
             set { _useDataTable = value; }

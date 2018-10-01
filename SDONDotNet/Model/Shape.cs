@@ -9,11 +9,11 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// Represents a shape in a SmartDraw diagram.
+    /// Object that represents a shape in a SmartDraw diagram.
     /// </summary>
     [Serializable]
     public sealed class Shape : SDONSerializeable
-    {   
+    {
         [DataMember(Name = "ID")]
         [IgnoreIfDefaultValue(Default = -1)]
         private int _id = -1;
@@ -67,12 +67,12 @@ namespace SDON.Model
         private int _textMargin = -1;
 
         [DataMember(Name = "MinWidth")]
-        [IgnoreIfDefaultValue(Default = 150)]
-        private int _minWidth = 150;
+        [IgnoreIfDefaultValue(Default = -1)]
+        private int _minWidth = -1;
 
         [DataMember(Name = "MinHeight")]
-        [IgnoreIfDefaultValue(Default = 75)]
-        private int _minHeight = 75;
+        [IgnoreIfDefaultValue(Default = -1)]
+        private int _minHeight = -1;
 
         [DataMember(Name = "FillColor")]
         [IgnoreIfDefaultValue(Default = null)]
@@ -90,17 +90,25 @@ namespace SDON.Model
         [IgnoreIfDefaultValue(Default = null)]
         private string _lineLabel = null;
 
+        [DataMember(Name = "LinePattern")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _linePattern = null;
+
         [DataMember(Name = "Hide")]
         [IgnoreIfDefaultValue(Default = false)]
         private bool _hide = false;
 
         [DataMember(Name = "Truncate")]
-        [IgnoreIfDefaultValue(Default = -1)]
-        private int _truncate = -1;
+        [IgnoreIfDefaultValue(Default = -2)]
+        private int _truncate = -2;
 
         [DataMember(Name = "Note")]
         [IgnoreIfDefaultValue(Default = null)]
         private string _note = null;
+
+        [DataMember(Name = "NoteIcon")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private string _noteIcon = null;
 
         [DataMember(Name = "ShapeConnectorType")]
         [IgnoreIfDefaultValue(Default = null)]
@@ -124,14 +132,18 @@ namespace SDON.Model
 
         [DataMember(Name = "Image")]
         [IgnoreIfDefaultValue(Default = null)]
-        private Image _imageUrl = null;
+        private Image _image = null;
 
         [DataMember(Name = "ShapeContainer")]
         [IgnoreIfDefaultValue(Default = null)]
         private ShapeContainer _shapeContainer = null;
-        
+
+        [DataMember(Name = "Data")]
+        [IgnoreIfDefaultValue(Default = null)]
+        private DataTableShapeEntry _data = null;
+
         /// <summary>
-        /// The ID of this shape. IDs are used to specify the paths of Return lines. IDs are arbitrary but should be unique.
+        /// The ID of this shape. IDs are used to specify the paths of Return lines. IDs arbitrary but should be unique and must be greater than zero.
         /// </summary>
         public int ID
         {
@@ -149,7 +161,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The type of shape. Used to change the shape from a rectangle (default) to another shape. A value from the ShapeTypes enum.
+        /// The type of shape. Used to change the shape from a rectangle (default) to another shape. A value from the ShapeTypes enum or a value from the containing diagram's symbol table.
         /// </summary>
         public string ShapeType
         {
@@ -162,7 +174,7 @@ namespace SDON.Model
         /// </summary>
         public bool TextBold
         {
-            get 
+            get
             {
                 if (_textBold.HasValue == true)
                 {
@@ -183,7 +195,7 @@ namespace SDON.Model
         /// </summary>
         public bool TextItalic
         {
-            get             
+            get
             {
                 if (_textItalic.HasValue == true)
                 {
@@ -239,7 +251,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Sets the space (in 600 dpi) between the text and the outside edge of the shape.
+        /// Sets the space (in 100 dpi) between the text and the outside edge of the shape.
         /// </summary>
         public int TextMargin
         {
@@ -248,7 +260,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The color of the text label of the shape (hex RGB value). If omitted, the color is the default for the template.
+        /// The color of the text label of the shape (hex RGB value or color alias). If omitted, the color is the default for the template.
         /// </summary>
         public string TextColor
         {
@@ -257,7 +269,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The fill color of the shape (hex RGB value). If omitted, color is the default for the template.
+        /// The fill color of the shape (hex RGB value or color alias). If omitted, color is the default for the template.
         /// </summary>
         public string FillColor
         {
@@ -284,7 +296,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Determines the direction in which text will grow a shape. Values must be from the TextGrow enum.
+        /// Determines the way in which a shape will grow as text is added. Values must be from the TextGrow enum.
         /// </summary>
         public string TextGrow
         {
@@ -293,7 +305,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Specifies the initial width of a shape in 1/100" before any text is added. Adding more text than will fit into the shape will grow it according to the TextGrow value. The default value for MinWidth is 150.
+        /// Specifies the initial width of a shape in 1/100" before any text is added. Adding more text than will fit into the shape will grow it according to the TextGrow value.
         /// </summary>
         public int MinWidth
         {
@@ -302,7 +314,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        ///Specifies the initial height of a shape in 1/100" before any text is added. Adding more text than will fit into the shape will grow it according to the TextGrow value. The default value for MinHeight is 75.
+        /// Specifies the initial height of a shape in 1/100" before any text is added. Adding more text than will fit into the shape will grow it according to the TextGrow value.
         /// </summary>
         public int MinHeight
         {
@@ -320,7 +332,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// The border color of the shape (hex RGB value). If omitted, color is the default for the template.
+        /// The border color of the shape (hex RGB value or color alias). If omitted, color is the default for the template.
         /// </summary>
         public string LineColor
         {
@@ -329,7 +341,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// A text label on the connector line segment that touches the shape. Only Applies to Shape
+        /// A text label on the connector line segment that touches the shape.
         /// </summary>
         public string LineLabel
         {
@@ -338,7 +350,16 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Whether or not to display the parent shape of a ShapeArray.
+        /// The pattern of the line for the connector. Must be a value from the LinePatterns enum.
+        /// </summary>
+        public string LinePattern
+        {
+            get { return _linePattern; }
+            set { _linePattern = value; }
+        }
+
+        /// <summary>
+        /// Whether or not to display the shape if this shape is a parent ShapeContainer to child shapes.
         /// </summary>
         public bool Hide
         {
@@ -347,7 +368,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Defines the number of characters to allow in a shape or cell before the remaining text is truncated. By default nothing is truncated. Defining Truncate to “-1” turns it off if on by default.
+        /// Defines the number of characters to allow in a shape before the remaining text is truncated. By default nothing is truncated. Defining Truncate to “-1” turns it off if on by default.
         /// </summary>
         public int Truncate
         {
@@ -356,7 +377,7 @@ namespace SDON.Model
         }
 
         /// <summary>
-        /// Defines the type of connector that is coming off of this shape. Must be a value from ShapeConnectorTypes.
+        /// Defines the type of connector that is coming off of this shape is the parent of. Must be a value from ShapeConnectorTypes.
         /// </summary>
         public string ShapeConnectorType
         {
@@ -371,6 +392,15 @@ namespace SDON.Model
         {
             get { return _note; }
             set { _note = value; }
+        }
+
+        /// <summary>
+        /// The icon to use for the note on a shape. Defaults to a post-it note icon. Other options are available in the Icons enum.
+        /// </summary>
+        public string NoteIcon
+        {
+            get { return _noteIcon; }
+            set { _noteIcon = value; }
         }
 
         /// <summary>
@@ -412,10 +442,10 @@ namespace SDON.Model
         /// <summary>
         /// An image to put into the shape.
         /// </summary>
-        public Image ImageURL
+        public Image Image
         {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
+            get { return _image; }
+            set { _image = value; }
         }
 
         /// <summary>
@@ -425,6 +455,15 @@ namespace SDON.Model
         {
             get { return _shapeContainer; }
             set { _shapeContainer = value; }
+        }
+
+        /// <summary>
+        /// An instance of a data table that is used to attach data to a shape.
+        /// </summary>
+        public DataTableShapeEntry Data
+        {
+            get { return _data; }
+            set { _data = value; }
         }
 
         /// <summary>

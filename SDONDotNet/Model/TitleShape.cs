@@ -9,7 +9,7 @@ using SDON.Serialization;
 namespace SDON.Model
 {
     /// <summary>
-    /// Represents the title of a diagram.
+    /// Object that represents the title of a diagram.
     /// </summary>
     [Serializable]
     public sealed class TitleShape : SDONSerializeable
