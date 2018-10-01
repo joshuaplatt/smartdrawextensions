@@ -5,11 +5,11 @@ Extend SmartDraw and build diagrams from any data source of your choice.
 - SDON SDK in C# (.NET 4.5)
 
 Include our bridging library in your extension page head tag:
-<script type="text/javascript" src="https://cloud.smartdraw.com/assets/api/sdapi-v1.min.js"></script>
+<script type="text/javascript" src="https://cs1.smartdraw.com/assets/api/sdapi-sdon-v1.min.js"></script>
 
 To learn more visit our [developer docs](http://www.smartdraw.com/developer).
 
-https://cloud.smartdraw.com/assets/api/sdapi-v1.min.js
+https://cs1.smartdraw.com/assets/api/sdapi-sdon-v1.min.js
 
 Copyright (c) 2018 SmartDraw, LLC. All rights reserved.
 [http://www.smartdraw.com/support/TERMS-OF-SERVICE.pdf](http://www.smartdraw.com/support/TERMS-OF-SERVICE.pdf)
