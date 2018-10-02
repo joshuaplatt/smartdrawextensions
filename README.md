@@ -14,6 +14,6 @@ To learn more visit our [developer docs](http://www.smartdraw.com/developer).
 Documentaion is Copyright (c) 2018 SmartDraw, LLC. All rights reserved.
 [http://www.smartdraw.com/support/TERMS-OF-SERVICE.pdf](http://www.smartdraw.com/support/TERMS-OF-SERVICE.pdf)
 
-Examples are licensed under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.html)
+Examples are [GPL v3 licensed](https://www.gnu.org/licenses/gpl-3.0.html).
 
-jsTree jQuery plugin is [MIT licenses](https://opensource.org/licenses/MIT)
+The jsTree jQuery plugin is [MIT licensed](https://opensource.org/licenses/MIT).
