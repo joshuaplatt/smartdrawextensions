@@ -4,8 +4,8 @@ ClassDiagramFilter.Utils.ClassExclusionUtil = function() {
         this.iteration = ClassDiagramFilter.Utils.JstreeState.iteration;
         ClassDiagramFilter.Utils.JstreeState.iteration++;
         
-        this.vs = {};
-        this.finalvs = {};
+        this.sdon = {};
+        this.finalsdon = {};
         
         this.nodeArray = [];
         this.undetermined = [];
@@ -34,24 +34,24 @@ ClassDiagramFilter.Utils.ClassExclusionUtil = function() {
     
     var model = {};
     
-    this.BuildTreeFromVS = function(vs) {
-        if(!(vs && (typeof vs.Shape == "object"))) {
+    this.BuildTreeFromSDON = function(sdon) {
+        if(!(sdon && (typeof sdon.Shape == "object"))) {
             return;
         }
         
         state = new ClassExclusionState();
         var root = state.jstreeStruct.core.data[0];
-        state.vs = vs;
+        state.sdon = sdon;
         
-        if(vs.Shape && vs.Shape.ShapeContainer && vs.Shape.ShapeContainer.Shapes) {
-            SearchShapesForClass(vs.Shape.ShapeContainer.Shapes, root);
-            //SearchShapeContainerRowForClass(vs.Shape, root);
+        if(sdon.Shape && sdon.Shape.ShapeContainer && sdon.Shape.ShapeContainer.Shapes) {
+            SearchShapesForClass(sdon.Shape.ShapeContainer.Shapes, root);
+            //SearchShapeContainerRowForClass(sdon.Shape, root);
         }
         
         tree.CreateTree(state.jstreeStruct);
     };
     
-    this.GenerateVSFromTree = function(hideMethods, hideProperties) {
+    this.GenerateSDONFromTree = function(hideMethods, hideProperties) {
         if(!state) {
             return "";
         }
@@ -77,7 +77,7 @@ ClassDiagramFilter.Utils.ClassExclusionUtil = function() {
             }
         }
         
-        return JSON.stringify(state.vs);
+        return JSON.stringify(state.sdon);
     };
     
     this.Destroy = function() {

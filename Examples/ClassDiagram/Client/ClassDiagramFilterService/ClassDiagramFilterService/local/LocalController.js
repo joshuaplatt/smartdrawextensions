@@ -48,8 +48,8 @@ ClassDiagramFilter.Local.LocalController = (function() {
             
             var onSuccess = function(data) {
                 try {
-                    var vs = JSON.parse(data);
-                    classExclusion.BuildTreeFromVS(vs);
+                    var sdon = JSON.parse(data);
+                    classExclusion.BuildTreeFromSDON(sdon);
                 }
                 catch(e) {
                     onFail(e.message);
@@ -112,8 +112,8 @@ ClassDiagramFilter.Local.LocalController = (function() {
         
         var SubmitFromFiles = function() {
             var onSuccess = function(data) {
-                SDAPI.VS.VisualScriptDone(data, function(data, err) {
-                    SDAPI.VS.CloseDialog();
+                SDAPI.SDON.SDONDone(data, function(data, err) {
+                    SDAPI.SDON.CloseDialog();
                 });
             };
             
@@ -140,11 +140,11 @@ ClassDiagramFilter.Local.LocalController = (function() {
         };
         
         var SubmitFromExclusion = function() {
-            var vs = classExclusion.GenerateVSFromTree(Interface.GetIsHidingMethods(),
+            var sdon = classExclusion.GenerateSDONFromTree(Interface.GetIsHidingMethods(),
                 Interface.GetIsHidingProperties());
             
-            SDAPI.VS.VisualScriptDone(vs, function(data, err) {
-                SDAPI.VS.CloseDialog();
+            SDAPI.SDON.SDONDone(sdon, function(data, err) {
+                SDAPI.SDON.CloseDialog();
             });
         };
         

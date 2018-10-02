@@ -86,8 +86,6 @@ function MakeGuid() {
 }
 
 $(document).ready(function() {
-    //ClassDiagramFilter.submitBtn = document.getElementById("SubmitBtn"); --temp--
-
     ClassDiagramFilter.Globals.tabObjs.push(ClassDiagramFilter.Local.LocalInterface);
     ClassDiagramFilter.Globals.tabObjs.push(ClassDiagramFilter.Github.GithubInterface);
 

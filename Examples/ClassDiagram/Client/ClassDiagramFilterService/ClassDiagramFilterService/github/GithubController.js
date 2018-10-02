@@ -33,7 +33,7 @@ ClassDiagramFilter.Github.GithubController = (function() {
         this.appId = "<Your App ID Here>";
 
         this.QuerySettings = function(callback) {
-            SDAPI.VS.GetUserSettings(function(response, err) {
+            SDAPI.SDON.GetUserSettings(function(response, err) {
                 if(response && (typeof response.Payload == "string")) {
                     if(response.Payload) {
                         settings = JSON.parse(response.Payload);
@@ -47,7 +47,7 @@ ClassDiagramFilter.Github.GithubController = (function() {
         this.SetSettings = function(newSettings) {
             settings = newSettings;
 
-            SDAPI.VS.SetUserSettings(JSON.stringify(newSettings),
+            SDAPI.SDON.SetUserSettings(JSON.stringify(newSettings),
                 function(success, err) {
                     //either succeeded or failed to set settings
                 });
@@ -291,8 +291,8 @@ ClassDiagramFilter.Github.GithubController = (function() {
 
             var onSuccess = function(data) {
                 try {
-                    var vs = JSON.parse(data);
-                    classExclusion.BuildTreeFromVS(vs);
+                    var sdon = JSON.parse(data);
+                    classExclusion.BuildTreeFromSDON(sdon);
                 }
                 catch(e) {
                     onFail(e.message);
@@ -376,13 +376,12 @@ ClassDiagramFilter.Github.GithubController = (function() {
             var exclusionBlob = GenerateExclusionBlob(exclusionTree);
 
             var onSuccess = function(data) {
-                SDAPI.VS.VisualScriptDone(data, function(data, err) {
-                    SDAPI.VS.CloseDialog();
+                SDAPI.SDON.SDONDone(data, function(data, err) {
+                    SDAPI.SDON.CloseDialog();
                 });
             };
 
             var onStep = function(sent, total) {
-                //--temp--
                 console.log(((total > 0) ? (sent / total * 100) : 100) + "% transferred");
             };
 
@@ -411,11 +410,11 @@ ClassDiagramFilter.Github.GithubController = (function() {
         };
 
         var SubmitFromClassEx = function() {
-            var vs = classExclusion.GenerateVSFromTree(Interface.GetIsHidingMethods(),
+            var sdon = classExclusion.GenerateSDONFromTree(Interface.GetIsHidingMethods(),
                 Interface.GetIsHidingProperties());
 
-            SDAPI.VS.VisualScriptDone(vs, function(data, err) {
-                SDAPI.VS.CloseDialog();
+            SDAPI.SDON.SDONDone(sdon, function(data, err) {
+                SDAPI.SDON.CloseDialog();
             });
         };
 

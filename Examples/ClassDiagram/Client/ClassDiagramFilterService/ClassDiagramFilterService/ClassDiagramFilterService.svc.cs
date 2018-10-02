@@ -56,7 +56,6 @@ namespace ClassDiagramFilterService
 
         public const string EnvironmentName = "SDENVIRONMENT";
 
-        //Change the following before deploying live (or revoke access from account) --temp--
         public static string ClientID = "";
         public static string ClientSecret = "";
 
