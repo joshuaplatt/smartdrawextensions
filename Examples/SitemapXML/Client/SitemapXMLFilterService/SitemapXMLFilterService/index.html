@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--What the heck, IE-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="jstree/themes/default/style.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cs1.smartdraw.com/assets/api/sdapi-sdon-v1.min.js"></script>
+    <script src="jstree/jstree.js"></script>
+    <script src="script.js"></script>
+    <script src="SitemapExclusionTree.js"></script>
+</head>
+<body>
+    <div class="plugin-contentContainer">
+
+            <h5 class="plugin-section-header">Choose a site map</h5>
+
+            <div class="plugin-sitemap-inputSiteMap">
+                <label class="plugin-fileInputContainer">Browse<input type="file" id="lfFile" onchange="SitemapXMLFilter.LF.SelectFile()" accept=".xml"/></label>
+                <p id="lfFileName" class="plugin-fileName"></p>
+                <input placeholder="Or Type URL" list="webRecentUrls" id="webUrl" oninput="SitemapXMLFilter.Web.ChangeUrlInput()" onkeydown="SitemapXMLFilter.Web.UrlInputKeyDownEvent(event)"/>
+                <datalist id="webRecentUrls"></datalist>
+                <button id="lfImportCancel" class="plugin-button plugin-button-cancel" onclick="SitemapXMLFilter.LF.ClearFile()" hidden>Cancel</button>
+            </div>
+
+
+            <p id="webOutputText">Converts up to 600 nodes on a sitemap.</p>
+            <p id="webTreeFeedbackText"></p>
+            <p id="lfOutputText" hidden>Note: Local sitemapindex files do not work, make sure all sitemaps are compiled into the same XML file.</p>
+            <p id="lfTreeFeedbackText" hidden></p>
+
+            <h5 class="plugin-section-header">File Display</h5>
+            <div class="plugin-sitemap-siteMapButtons">
+                <button class="plugin-button plugin-button-ready" onclick="SitemapXMLFilter.Web.Exclude()" id="webExclude" hidden>Load Site Map</button>
+                <button class="plugin-button plugin-button-ready" onclick="SitemapXMLFilter.LF.Exclude()" id="lfExclude" hidden>Load Site Map</button>
+            </div>
+            <div class="plugin-treeOutput" id="webTreeOutputParent">
+                <div id="webTreeOutput"></div>
+                <div id="webLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+            <div class="plugin-treeOutput" id="lfTreeOutputParent" hidden>
+                <div id="lfTreeOutput"></div>
+                <div id="lfLoading" class="loader-parent loader-hidden"><div class="loaderFrame"><h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1><div class="loader"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>
+            </div>
+
+            <div id="treeOptions" class="plugin-treeOptions">
+                <button class="plugin-button plugin-button-disabled" id="lfCheckAll" onclick="SitemapXMLFilter.LF.CheckAll()" disabled hidden>Select All</button>
+                <button class="plugin-button plugin-button-disabled" id="lfUncheckAll" onclick="SitemapXMLFilter.LF.UncheckAll()" disabled hidden>Deselect All</button>
+                <button class="plugin-button plugin-button-disabled" id="webCheckAll" onclick="SitemapXMLFilter.Web.CheckAll()" disabled>Select All</button>
+                <button class="plugin-button plugin-button-disabled" id="webUncheckAll" onclick="SitemapXMLFilter.Web.UncheckAll()" disabled>Deselect All</button>
+            </div>
+
+            <h5 class="plugin-section-header">Options</h5>
+            <div class="plugin-options plugin-borderedContent">
+                <div>
+                    <label><input type="checkbox" id="gTables" checked/>Show peers as tables</label>
+                    <label><input type="checkbox" id="gHyperlinks" checked/>Add hyperlinks to pages</label>
+                </div>
+                <div>
+                    <label><input type="checkbox" id="gLexicographicOrder" checked/>Sort sitemap alphabetically</label>
+                </div>
+            </div>
+
+    </div>
+
+    <div class="plugin-modalFooter">
+        <button onclick="SitemapXMLFilter.Submit()" id="submit">Build Diagram</button>
+    </div>
+
+</body>
+</html>

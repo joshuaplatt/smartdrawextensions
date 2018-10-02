@@ -1,4 +1,6 @@
 # SmartDraw Extensions
+Version: 1.0.0
+
 Extend SmartDraw and build diagrams from any data source of your choice.
 
 - SDON SDK in Java (JDK 8)
@@ -9,8 +11,9 @@ Include our bridging library in your extension page head tag:
 
 To learn more visit our [developer docs](http://www.smartdraw.com/developer).
 
-https://cs1.smartdraw.com/assets/api/sdapi-sdon-v1.min.js
-
-Copyright (c) 2018 SmartDraw, LLC. All rights reserved.
+Documentaion is Copyright (c) 2018 SmartDraw, LLC. All rights reserved.
 [http://www.smartdraw.com/support/TERMS-OF-SERVICE.pdf](http://www.smartdraw.com/support/TERMS-OF-SERVICE.pdf)
-Version: 1.0.0
+
+Examples are licensed under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.html)
+
+jsTree jQuery plugin is [MIT licenses](https://opensource.org/licenses/MIT)
